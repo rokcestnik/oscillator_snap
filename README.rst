@@ -22,16 +22,17 @@ If you use OscillatorSnap in your research, please cite our publication:
 | Rok Cestnik and Markus Abel, Inferring the dynamics of oscillatory systems using recurrent neural networks, Chaos (2019).
 
 
-+---------------------------------------------------------------------------------------------------+
-|| @article{cestnik_inferring_2019,                                                                 |
-|| 	author   = {R. Cestnik and M. Abel},                                                        |
-|| 	title    = {Inferring the dynamics of oscillatory systems using recurrent neural networks}, |
-|| 	year     = {2019},                                                                          |
-|| 	journal  = {Chaos},                                                                         |
-|| 	volume   = {X},                                                                             |
-|| 	pages    = {X}                                                                              |
-|| }                                                                                                |
-+---------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------+
+|| @article{cestnik_inferring_2019,                                                                     |
+|| 	    author   = {R. Cestnik and M. Abel},                                                        |
+|| 	    title    = {Inferring the dynamics of oscillatory systems using recurrent neural networks}, |
+|| 	    journal  = {Chaos},                                                                         |
+|| 	    volume   = {29},                                                                            |
+|| 	    number   = {6},                                                                             |
+|| 	    pages    = {063128},                                                                        |
+|| 	    year     = {2019}                                                                           |
+|| }                                                                                                    |
++-------------------------------------------------------------------------------------------------------+
 
 
 |
@@ -105,14 +106,14 @@ Then the validation set is separated from the training data:
 .. code:: python
 	
 	train_data = [data[i][:-VALIDATION_POINTS] for i in range(len(data))]
-	val_data = [data[i][-VALIDATION_POINTS] for i in range(len(data))]
+	val_data = [data[i][-VALIDATION_POINTS:] for i in range(len(data))]
 
 and then the data can be parsed:
 
 .. code:: python
 
 	X, Y = parse_train_data(train_data, PAST, DIM_IN, DIM_OUT)
-	X_val, Y_val = parse_train_data(val_data, PAST, DIM_OUT, DIM_OUT)
+	X_val, Y_val = parse_train_data(val_data, PAST, DIM_IN, DIM_OUT)
 
 A model needs to be created, it can be either freshly generated:
 
@@ -139,7 +140,7 @@ and then it can be trained:
 
 .. code:: python
 
-	model.fit(X, Y, batch_size=BATHC_SIZE, epochs=EPOCHS, validation_data=(X_val, Y_val))
+	model.fit(X, Y, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_data=(X_val, Y_val))
 
 Once the model is trained it can be used for signal forecasting:
 
